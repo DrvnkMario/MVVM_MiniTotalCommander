@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace TotalCommander.ViewModel
+namespace MVVM_MiniTotalCommander.ViewModel
 {
     class RelayCommand : ICommand
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace TotalCommander.Model
+namespace MVVM_MiniTotalCommander.Model
 {
     public class PanelTC
     {
