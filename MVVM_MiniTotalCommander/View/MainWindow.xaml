@@ -3,10 +3,53 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MVVM_MiniTotalCommander"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:view ="clr-namespace:MVVM_MiniTotalCommander.View"
+        xmlns:vm ="clr-namespace:MVVM_MiniTotalCommander.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1000">
+    <Window.DataContext>
+        <vm:MainViewModel x:Name="viewModel"/>
+    </Window.DataContext>
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <view:PanelTC Grid.Column="0" 
+                      Grid.Row="0"
+                      currPath="{Binding CurrentPath}"
+                      comboContent="{Binding AvailableDrives}"
+                      listBoxContent="{Binding DirsAndFiles}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ListBox_doubleClick_handler">
+                    <i:InvokeCommandAction Command="{Binding ListBox_db_click}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="evComboBox_ContextMenuOpening_handler">
+                    <i:InvokeCommandAction Command="{Binding ComboBox_ContentMenuOpening}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </view:PanelTC>
+
+
+        <view:PanelTC Grid.Column="1" 
+                      Grid.Row="0"
+                      currPath="{Binding CurrentPath}"
+                      comboContent="{Binding AvailableDrives}"
+                      listBoxContent="{Binding DirsAndFiles}"/>
+
+        <Button Grid.Row="1" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="150"
+                Height="20"
+                Content="Copy>>"/>
     </Grid>
 </Window>
