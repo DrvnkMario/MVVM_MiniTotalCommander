@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -7,15 +8,15 @@ namespace MVVM_MiniTotalCommander.Model
 {
     public class PanelTC
     {
-        private List<String> availableDirectories { get; set; }
-        public List<String> AvailableDirectories { get => availableDirectories; set => availableDirectories = value; }
-        private List<String> subDirsAndFiles { get; set; }
-        public List<String> SubDirsAndFiles { get => subDirsAndFiles; set => subDirsAndFiles = value; }
+        private ObservableCollection<string> availableDirectories { get; set; }
+        public ObservableCollection<string> AvailableDirectories { get => availableDirectories; set => availableDirectories = value; }
+        private ObservableCollection<string> subDirsAndFiles { get; set; }
+        public ObservableCollection<string> SubDirsAndFiles { get => subDirsAndFiles; set => subDirsAndFiles = value; }
         private string currentPath { get; set; }
         public string CurrentPath { get => currentPath; set => currentPath = value; }
         public PanelTC()
         {
-            availableDirectories = new List<String>();
+            availableDirectories = new ObservableCollection<string>();
             searchForAvailableDrives();
             currentPath = availableDirectories[0];
             getDirectoriesAndFiles(currentPath);
@@ -31,10 +32,10 @@ namespace MVVM_MiniTotalCommander.Model
             }
         }
 
-        private void getDirectoriesAndFiles(string path) // searches directory and creates
+        public void getDirectoriesAndFiles(string path) // searches directory and creates
                                                          // list of files and subdirectories
         {
-            subDirsAndFiles = new List<String>();
+            subDirsAndFiles = new ObservableCollection<string>();
             foreach (var file in Directory.GetFileSystemEntries(path, "*").Select(Path.GetFileName))
             {
                 if (Path.HasExtension($"{path}" + file))
@@ -46,7 +47,7 @@ namespace MVVM_MiniTotalCommander.Model
                     subDirsAndFiles.Add($"<D>" + file);
                 }
             }
-            subDirsAndFiles.Sort();
+            subDirsAndFiles = new ObservableCollection<string>(subDirsAndFiles.OrderBy(x => x));
         }
 
     }
