@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 namespace MVVM_MiniTotalCommander.View
 {
     /// <summary>
@@ -24,6 +25,7 @@ namespace MVVM_MiniTotalCommander.View
             InitializeComponent();
         }
 
+        #region currPath
         public static readonly DependencyProperty TextProperty = // creating DependencyProperty for currPath field 
             DependencyProperty.Register(
                     nameof(currPath),
@@ -36,30 +38,20 @@ namespace MVVM_MiniTotalCommander.View
             set { SetValue(TextProperty, value); }
         }
 
+        #endregion
+
+        #region combobox
         public static readonly DependencyProperty ComboBoxContentProperty = // creating DependencyProperty for combobox,
                                                                             // this will allow proper binding of combobox to content
             DependencyProperty.Register(
                     nameof(comboContent),
-                    typeof(List<String>),
+                    typeof(ObservableCollection<string>),
                     typeof(PanelTC)
                 );
-        public List<String> comboContent
+        public ObservableCollection<string> comboContent
         {
-            get { return (List<String>)GetValue(ComboBoxContentProperty); }
+            get { return (ObservableCollection<string>)GetValue(ComboBoxContentProperty); }
             set { SetValue(ComboBoxContentProperty, value); }
-        }
-
-        public static readonly DependencyProperty ListBoxContentProperty = // creating DependencyProperty for ListBox,
-                                                                           // this will allow proper binding of ListBox to content
-            DependencyProperty.Register(
-                    nameof(listBoxContent),
-                    typeof(List<String>),
-                    typeof(PanelTC)
-                );
-        public List<String> listBoxContent
-        {
-            get { return (List<String>)GetValue(ListBoxContentProperty); }
-            set { SetValue(ListBoxContentProperty, value); }
         }
 
         public static readonly RoutedEvent evComboBox_ContextMenuOpening = // registration of custom event for opening ComboBox context menu
@@ -67,25 +59,67 @@ namespace MVVM_MiniTotalCommander.View
                    RoutingStrategy.Bubble, typeof(RoutedEventHandler),
                    typeof(PanelTC));
 
-
         public event RoutedEventHandler evComboBox_ContextMenuOpening_handler // evComboBox_ContextMenuOpening handler
         {
             add { AddHandler(evComboBox_ContextMenuOpening, value); }
             remove { RemoveHandler(evComboBox_ContextMenuOpening, value); }
         }
 
-        void raise_ComboBox_ContextMenuOpening() // This method will raise event on ComboBox Context Menu opening
+        void raise_ComboBox_ContextMenuOpening() 
         {
             RoutedEventArgs newEventArgs =
                     new RoutedEventArgs(PanelTC.evComboBox_ContextMenuOpening);
             RaiseEvent(newEventArgs);
         }
 
-        private void ComboBox_ContextMenuOpening(object sender, EventArgs e)
+        private void ComboBox_ContextMenuOpening(object sender, EventArgs e) // This method will raise event on ComboBox Context Menu opening
         {
+            
             raise_ComboBox_ContextMenuOpening();
+            if(currPath == null)
+            {
+                currPath = comboContent[0]; // this line will prevent app from crashing if none combo item is selected
+            }
+            
+        }
+        public static readonly RoutedEvent evComboBox_DropdownClose = // registration of custom event for closing ComboBox context menu
+       EventManager.RegisterRoutedEvent(nameof(evComboBox_DropdownClose_handler),
+                  RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+                  typeof(PanelTC));
+
+
+        public event RoutedEventHandler evComboBox_DropdownClose_handler // evComboBox_DropdownClose handler
+        {
+            add { AddHandler(evComboBox_DropdownClose, value); }
+            remove { RemoveHandler(evComboBox_DropdownClose, value); }
         }
 
+        void raise_evComboBox_DropdownClose() 
+        {
+            RoutedEventArgs newEventArgs =
+                    new RoutedEventArgs(PanelTC.evComboBox_DropdownClose);
+            RaiseEvent(newEventArgs);
+        }
+
+        private void ComboBox_DropDownClosed(object sender, EventArgs e) // This method will raise event on ComboBox Dropdown being closed
+        {
+            raise_evComboBox_DropdownClose();
+        }
+        #endregion
+
+        #region listbox
+        public static readonly DependencyProperty ListBoxContentProperty = // creating DependencyProperty for ListBox,
+                                                                           // this will allow proper binding of ListBox to content
+            DependencyProperty.Register(
+                    nameof(listBoxContent),
+                    typeof(ObservableCollection<string>),
+                    typeof(PanelTC)
+                );
+        public ObservableCollection<string> listBoxContent
+        {
+            get { return (ObservableCollection<string>)GetValue(ListBoxContentProperty); }
+            set { SetValue(ListBoxContentProperty, value); }
+        }
 
         public static readonly RoutedEvent ListBox_doubleClick = // Registration of cutom event - doubleClick on ListBox content
        EventManager.RegisterRoutedEvent(nameof(ListBox_doubleClick_handler),
@@ -109,6 +143,6 @@ namespace MVVM_MiniTotalCommander.View
         {
             raiseListBox_doubleClick();
         }
-
+        #endregion
     }
 }
