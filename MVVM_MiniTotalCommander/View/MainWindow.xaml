@@ -23,8 +23,8 @@
         </Grid.RowDefinitions>
         <view:PanelTC Grid.Column="0" 
                       Grid.Row="0"
-                      currPath="{Binding CurrentPath}"
-                      comboContent="{Binding AvailableDrives}"
+                      currPath="{Binding CurrentPath, Mode=TwoWay}"
+                      comboContent="{Binding AvailableDirectories}"
                       listBoxContent="{Binding DirsAndFiles}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ListBox_doubleClick_handler">
@@ -32,6 +32,9 @@
                 </i:EventTrigger>
                 <i:EventTrigger EventName="evComboBox_ContextMenuOpening_handler">
                     <i:InvokeCommandAction Command="{Binding ComboBox_ContentMenuOpening}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="evComboBox_DropdownClose_handler">
+                    <i:InvokeCommandAction Command="{Binding ComboBox_DropdownClose}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </view:PanelTC>
@@ -50,6 +53,7 @@
                 VerticalAlignment="Center"
                 Width="150"
                 Height="20"
-                Content="Copy>>"/>
+                Content="Copy>>"
+                Command="{Binding Copy}"/>
     </Grid>
 </Window>
