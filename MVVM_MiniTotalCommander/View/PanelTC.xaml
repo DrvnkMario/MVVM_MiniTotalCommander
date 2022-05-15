@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MVVM_MiniTotalCommander.View"
+             xmlns:a="System.Windows.Forms"
              xmlns:vm ="clr-namespace:MVVM_MiniTotalCommander.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500">
@@ -35,7 +36,7 @@
 
             <TextBox IsEnabled="False" 
                      Grid.Column="1"
-                     Text="{Binding currPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                     Text="{Binding currPath, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
 
             <TextBlock Text="Drive:" 
                        Grid.Row="1" 
@@ -44,9 +45,12 @@
 
             <ComboBox Grid.Row="1" 
                       Grid.Column="1"
-                      ItemsSource="{Binding comboContent,NotifyOnSourceUpdated=True, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                      SelectedItem="{Binding currPath, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                      DropDownOpened="ComboBox_ContextMenuOpening"/>
+                      ItemsSource="{Binding comboContent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                      SelectedItem="{Binding currPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                      DropDownOpened="ComboBox_ContextMenuOpening"
+                      SelectionChanged="ComboBox_SelectionChanged"
+                      DropDownClosed="ComboBox_DropDownClosed"/>
+                      
 
         </Grid>
         <ListBox Grid.Row="1"
