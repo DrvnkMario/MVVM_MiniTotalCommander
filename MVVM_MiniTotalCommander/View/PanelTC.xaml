@@ -53,7 +53,9 @@
 
         </Grid>
         <ListBox Grid.Row="1"
+                 Name="dirsAndSubdirs"
                  ItemsSource="{Binding listBoxContent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                 SelectedItem="{Binding selectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                  MouseDoubleClick="ListBox_MouseDoubleClick"/>
     </Grid>
 </UserControl>
