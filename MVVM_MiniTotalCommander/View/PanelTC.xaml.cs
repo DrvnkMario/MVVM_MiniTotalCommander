@@ -74,13 +74,7 @@ namespace MVVM_MiniTotalCommander.View
 
         private void ComboBox_ContextMenuOpening(object sender, EventArgs e) // This method will raise event on ComboBox Context Menu opening
         {
-            
             raise_ComboBox_ContextMenuOpening();
-            if(currPath == null)
-            {
-                currPath = comboContent[0]; // this line will prevent app from crashing if none combo item is selected
-            }
-            
         }
         public static readonly RoutedEvent evComboBox_DropdownClose = // registration of custom event for closing ComboBox context menu
        EventManager.RegisterRoutedEvent(nameof(evComboBox_DropdownClose_handler),
@@ -108,6 +102,17 @@ namespace MVVM_MiniTotalCommander.View
         #endregion
 
         #region listbox
+        public static readonly DependencyProperty selectedItemProperty =
+            DependencyProperty.Register(nameof(selectedItem),
+                typeof(string),
+                typeof(PanelTC));
+
+        public string selectedItem
+        {
+            get { return (string)GetValue(selectedItemProperty); }
+            set { SetValue(selectedItemProperty, value); }
+        }
+
         public static readonly DependencyProperty ListBoxContentProperty = // creating DependencyProperty for ListBox,
                                                                            // this will allow proper binding of ListBox to content
             DependencyProperty.Register(
