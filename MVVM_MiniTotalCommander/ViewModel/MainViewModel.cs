@@ -12,8 +12,9 @@ namespace MVVM_MiniTotalCommander.ViewModel
 {
     class MainViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+
         #region properties
+        public event PropertyChangedEventHandler PropertyChanged;
         private Model.PanelTC panelTC { get; set; }
         private ObservableCollection<string> availableDirectories { get; set; }
         public ObservableCollection<string> AvailableDirectories
@@ -45,6 +46,16 @@ namespace MVVM_MiniTotalCommander.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPath)));
             }
         }
+        private string listBoxSelectedItem { get; set; }
+        public string ListBoxSelectedItem
+        {
+            get =>listBoxSelectedItem;
+            set
+            {
+                listBoxSelectedItem = value;
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(ListBoxSelectedItem)));
+            }
+        }
         #endregion
         #region constructors and initialization of properties
         public MainViewModel()
@@ -62,7 +73,26 @@ namespace MVVM_MiniTotalCommander.ViewModel
         // Handling ListBox item double click with ICommand
         // This method changes path and refreshes ListBox content
         private ICommand listBox_db_click;
-        public ICommand ListBox_db_click => listBox_db_click ?? (listBox_db_click = new RelayCommand(o => Console.WriteLine("Test"), null));
+        public ICommand ListBox_db_click => listBox_db_click ?? (listBox_db_click = new RelayCommand(o =>
+        {
+            if(ListBoxSelectedItem.StartsWith("<D>") == true)
+            {
+                if(Path.GetPathRoot(CurrentPath) == CurrentPath)
+                {
+                    CurrentPath += ListBoxSelectedItem.Remove(0, 3);
+                }
+                else
+                {
+                    CurrentPath += "\\" + ListBoxSelectedItem.Remove(0, 3);
+                }
+            }
+            else if(ListBoxSelectedItem == "..")
+            {
+                CurrentPath = Path.GetDirectoryName(CurrentPath);
+            }
+            panelTC.getDirectoriesAndFiles(CurrentPath);
+            DirsAndFiles = new ObservableCollection<string>(panelTC.SubDirsAndFiles);
+        }, null));
 
 
         // Handling ComboBox Dropdown opening with ICommand
@@ -73,7 +103,7 @@ namespace MVVM_MiniTotalCommander.ViewModel
             {
                 panelTC.searchForAvailableDrives();
                 availableDirectories = new ObservableCollection<string>(panelTC.AvailableDirectories);
-                
+                CurrentPath=availableDirectories[0]; // This line will prevent app from crashing if none combo box item is chosen
             }, null));
 
         // Handling Combobox Dropdown close with ICommand
@@ -93,7 +123,7 @@ namespace MVVM_MiniTotalCommander.ViewModel
         public ICommand Copy => copy ?? (copy =
             new RelayCommand(o =>
             {
-                Console.WriteLine(CurrentPath);
+                Console.WriteLine("working");
             }, null));
         #endregion
     }
