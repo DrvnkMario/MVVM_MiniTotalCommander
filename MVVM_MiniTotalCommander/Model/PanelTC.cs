@@ -36,16 +36,24 @@ namespace MVVM_MiniTotalCommander.Model
                                                          // list of files and subdirectories
         {
             subDirsAndFiles = new ObservableCollection<string>();
+            if (path != Path.GetPathRoot(path)) // checking if given path is root or subdirectory. If path is not root then add ".." to subDirsAndFiles property.
+            {
+                subDirsAndFiles.Add("..");
+            }
             foreach (var file in Directory.GetFileSystemEntries(path, "*").Select(Path.GetFileName))
             {
-                if (Path.HasExtension($"{path}" + file))
+                if(file[0] != '$')
                 {
-                    subDirsAndFiles.Add(file);
+                    if (Path.HasExtension($"{path}" + file))
+                    {
+                        subDirsAndFiles.Add(file);
+                    }
+                    else
+                    {
+                        subDirsAndFiles.Add($"<D>" + file);
+                    }
                 }
-                else
-                {
-                    subDirsAndFiles.Add($"<D>" + file);
-                }
+                
             }
             subDirsAndFiles = new ObservableCollection<string>(subDirsAndFiles.OrderBy(x => x));
         }
