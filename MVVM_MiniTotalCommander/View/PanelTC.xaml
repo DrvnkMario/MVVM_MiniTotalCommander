@@ -36,7 +36,7 @@
 
             <TextBox IsEnabled="False" 
                      Grid.Column="1"
-                     Text="{Binding currPath, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                     Text="{Binding CurrentPath , RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
 
             <TextBlock Text="Drive:" 
                        Grid.Row="1" 
@@ -46,7 +46,7 @@
             <ComboBox Grid.Row="1" 
                       Grid.Column="1"
                       ItemsSource="{Binding comboContent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                      SelectedItem="{Binding currPath, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                      SelectedItem="{Binding CurrentPath , Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                       DropDownOpened="ComboBox_ContextMenuOpening"
                       DropDownClosed="ComboBox_DropDownClosed"/>
                       

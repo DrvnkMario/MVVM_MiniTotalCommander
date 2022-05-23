@@ -24,15 +24,14 @@ namespace MVVM_MiniTotalCommander.View
         {
             InitializeComponent();
         }
-
         #region currPath
         public static readonly DependencyProperty TextProperty = // creating DependencyProperty for currPath field 
             DependencyProperty.Register(
-                    nameof(currPath),
+                    nameof(CurrentPath),
                     typeof(string),
                     typeof(PanelTC)
                 );
-        public string currPath 
+        public string CurrentPath 
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
@@ -45,12 +44,12 @@ namespace MVVM_MiniTotalCommander.View
                                                                             // this will allow proper binding of combobox to content
             DependencyProperty.Register(
                     nameof(comboContent),
-                    typeof(ObservableCollection<string>),
+                    typeof(List<string>),
                     typeof(PanelTC)
                 );
-        public ObservableCollection<string> comboContent
+        public List<string> comboContent
         {
-            get { return (ObservableCollection<string>)GetValue(ComboBoxContentProperty); }
+            get { return (List<string>)GetValue(ComboBoxContentProperty); }
             set { SetValue(ComboBoxContentProperty, value); }
         }
 
@@ -117,12 +116,12 @@ namespace MVVM_MiniTotalCommander.View
                                                                            // this will allow proper binding of ListBox to content
             DependencyProperty.Register(
                     nameof(listBoxContent),
-                    typeof(ObservableCollection<string>),
+                    typeof(List<string>),
                     typeof(PanelTC)
                 );
-        public ObservableCollection<string> listBoxContent
+        public List<string> listBoxContent
         {
-            get { return (ObservableCollection<string>)GetValue(ListBoxContentProperty); }
+            get { return (List<string>)GetValue(ListBoxContentProperty); }
             set { SetValue(ListBoxContentProperty, value); }
         }
 

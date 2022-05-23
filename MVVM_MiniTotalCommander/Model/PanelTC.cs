@@ -8,54 +8,37 @@ namespace MVVM_MiniTotalCommander.Model
 {
     public class PanelTC
     {
-        private ObservableCollection<string> availableDirectories { get; set; }
-        public ObservableCollection<string> AvailableDirectories { get => availableDirectories; set => availableDirectories = value; }
-        private ObservableCollection<string> subDirsAndFiles { get; set; }
-        public ObservableCollection<string> SubDirsAndFiles { get => subDirsAndFiles; set => subDirsAndFiles = value; }
-        private string currentPath { get; set; }
-        public string CurrentPath { get => currentPath; set => currentPath = value; }
-        public PanelTC()
-        {
-            availableDirectories = new ObservableCollection<string>();
-            searchForAvailableDrives();
-            currentPath = availableDirectories[0];
-            getDirectoriesAndFiles(currentPath);
-        }
+        public List<string> AvailableDirectories = new List<string>();
+        public List<string> SubDirsAndFiles = new List<string>();
+        public string CurrentPath { get; set; }
 
         public void searchForAvailableDrives()         // as name suggest this method will get every avaliable 
         {                                              // drive both logical and physical
-            availableDirectories.Clear();
+            AvailableDirectories.Clear();
             foreach (var drive in DriveInfo.GetDrives())
             {
                 if (drive.IsReady == true)
-                    availableDirectories.Add(drive.Name);
+                    AvailableDirectories.Add(drive.Name);
             }
         }
 
         public void getDirectoriesAndFiles(string path) // searches directory and creates
                                                          // list of files and subdirectories
         {
-            subDirsAndFiles = new ObservableCollection<string>();
-            if (path != Path.GetPathRoot(path)) // checking if given path is root or subdirectory. If path is not root then add ".." to subDirsAndFiles property.
+            SubDirsAndFiles.Clear();
+            if (path != Path.GetPathRoot(path)) // checking if given path is root or subdirectory.
+                                                // If path is not root then add ".." to subDirsAndFiles property.
             {
-                subDirsAndFiles.Add("..");
+                SubDirsAndFiles.Add("..");
             }
-            foreach (var file in Directory.GetFileSystemEntries(path, "*").Select(Path.GetFileName))
+            foreach (var file in Directory.GetDirectories(path))
             {
-                if(file[0] != '$')
-                {
-                    if (Path.HasExtension($"{path}" + file))
-                    {
-                        subDirsAndFiles.Add(file);
-                    }
-                    else
-                    {
-                        subDirsAndFiles.Add($"<D>" + file);
-                    }
-                }
-                
+                SubDirsAndFiles.Add("<D>"+file.Remove(0,file.LastIndexOf("\\")+1));
             }
-            subDirsAndFiles = new ObservableCollection<string>(subDirsAndFiles.OrderBy(x => x));
+            foreach (var file in Directory.GetFiles(path))
+            {
+                SubDirsAndFiles.Add(file.Remove(0, file.LastIndexOf("\\") + 1));
+            }
         }
 
     }

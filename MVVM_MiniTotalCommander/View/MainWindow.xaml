@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:MVVM_MiniTotalCommander"
         xmlns:view ="clr-namespace:MVVM_MiniTotalCommander.View"
         xmlns:vm ="clr-namespace:MVVM_MiniTotalCommander.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
     <Window.DataContext>
-        <vm:MainViewModel x:Name="viewModel"/>
+        <vm:MainViewModel/>
     </Window.DataContext>
 
     <Grid>
@@ -21,21 +22,22 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <view:PanelTC Grid.Column="0" 
+        <view:PanelTC x:Name="LeftPanel"
+                      Grid.Column="0" 
                       Grid.Row="0"
-                      currPath="{Binding CurrentPath, Mode=TwoWay}"
-                      comboContent="{Binding AvailableDirectories}"
-                      listBoxContent="{Binding DirsAndFiles}"
-                      selectedItem="{Binding ListBoxSelectedItem, Mode=TwoWay}">
+                      CurrentPath ="{Binding LeftPanel.CurrentPath, Mode=TwoWay}"
+                      comboContent="{Binding LeftPanel.AvailableDirectories, UpdateSourceTrigger=PropertyChanged}"
+                      listBoxContent="{Binding LeftPanel.DirsAndFiles, UpdateSourceTrigger=PropertyChanged}"
+                      selectedItem="{Binding LeftPanel.ListBoxSelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ListBox_doubleClick_handler">
-                    <i:InvokeCommandAction Command="{Binding ListBox_db_click}"/>
+                    <i:InvokeCommandAction Command="{Binding LeftPanel.ListBox_db_click}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="evComboBox_ContextMenuOpening_handler">
-                    <i:InvokeCommandAction Command="{Binding ComboBox_ContentMenuOpening}"/>
+                    <i:InvokeCommandAction Command="{Binding LeftPanel.ComboBox_ContentMenuOpening}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="evComboBox_DropdownClose_handler">
-                    <i:InvokeCommandAction Command="{Binding ComboBox_DropdownClose}"/>
+                    <i:InvokeCommandAction Command="{Binding LeftPanel.ComboBox_DropdownClose}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </view:PanelTC>
@@ -43,9 +45,23 @@
 
         <view:PanelTC Grid.Column="1" 
                       Grid.Row="0"
-                      currPath="{Binding CurrentPath}"
-                      comboContent="{Binding AvailableDrives}"
-                      listBoxContent="{Binding DirsAndFiles}"/>
+                      CurrentPath ="{Binding RightPanel.CurrentPath, Mode=TwoWay}"
+                      comboContent="{Binding RightPanel.AvailableDirectories}"
+                      listBoxContent="{Binding RightPanel.DirsAndFiles}"
+                      selectedItem="{Binding RightPanel.ListBoxSelectedItem, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ListBox_doubleClick_handler">
+                    <i:InvokeCommandAction Command="{Binding RightPanel.ListBox_db_click}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="evComboBox_ContextMenuOpening_handler">
+                    <i:InvokeCommandAction Command="{Binding RightPanel.ComboBox_ContentMenuOpening}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="evComboBox_DropdownClose_handler">
+                    <i:InvokeCommandAction Command="{Binding RightPanel.ComboBox_DropdownClose}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+        </view:PanelTC>
 
         <Button Grid.Row="1" 
                 Grid.Column="0" 
@@ -55,6 +71,6 @@
                 Width="150"
                 Height="20"
                 Content="Copy>>"
-                Command="{Binding Copy}"/>
+                Command="{Binding Path=Copy}"/>
     </Grid>
 </Window>
