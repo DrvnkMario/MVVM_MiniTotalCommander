@@ -8,8 +8,8 @@ namespace MVVM_MiniTotalCommander.Model
 {
     public class PanelTC
     {
-        public List<string> AvailableDirectories = new List<string>();
-        public List<string> SubDirsAndFiles = new List<string>();
+        public ObservableCollection<string> AvailableDirectories = new ObservableCollection<string>();
+        public ObservableCollection<string> SubDirsAndFiles = new ObservableCollection<string>();
         public string CurrentPath { get; set; }
 
         public void searchForAvailableDrives()         // as name suggest this method will get every avaliable 

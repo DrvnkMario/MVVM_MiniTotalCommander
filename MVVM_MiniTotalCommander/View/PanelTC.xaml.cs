@@ -44,12 +44,12 @@ namespace MVVM_MiniTotalCommander.View
                                                                             // this will allow proper binding of combobox to content
             DependencyProperty.Register(
                     nameof(comboContent),
-                    typeof(List<string>),
+                    typeof(ObservableCollection<string>),
                     typeof(PanelTC)
                 );
-        public List<string> comboContent
+        public ObservableCollection<string> comboContent
         {
-            get { return (List<string>)GetValue(ComboBoxContentProperty); }
+            get { return (ObservableCollection<string>)GetValue(ComboBoxContentProperty); }
             set { SetValue(ComboBoxContentProperty, value); }
         }
 
@@ -116,12 +116,12 @@ namespace MVVM_MiniTotalCommander.View
                                                                            // this will allow proper binding of ListBox to content
             DependencyProperty.Register(
                     nameof(listBoxContent),
-                    typeof(List<string>),
+                    typeof(ObservableCollection<string>),
                     typeof(PanelTC)
                 );
-        public List<string> listBoxContent
+        public ObservableCollection<string> listBoxContent
         {
-            get { return (List<string>)GetValue(ListBoxContentProperty); }
+            get { return (ObservableCollection<string>)GetValue(ListBoxContentProperty); }
             set { SetValue(ListBoxContentProperty, value); }
         }
 
