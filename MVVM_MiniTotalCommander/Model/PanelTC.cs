@@ -31,13 +31,20 @@ namespace MVVM_MiniTotalCommander.Model
             {
                 SubDirsAndFiles.Add("..");
             }
-            foreach (var file in Directory.GetDirectories(path))
+            try
             {
-                SubDirsAndFiles.Add("<D>"+file.Remove(0,file.LastIndexOf("\\")+1));
+                foreach (var file in Directory.GetDirectories(path))
+                {
+                    SubDirsAndFiles.Add("<D>" + file.Remove(0, file.LastIndexOf("\\") + 1));
+                }
+                foreach (var file in Directory.GetFiles(path))
+                {
+                    SubDirsAndFiles.Add(file.Remove(0, file.LastIndexOf("\\") + 1));
+                }
             }
-            foreach (var file in Directory.GetFiles(path))
+            catch(Exception e)
             {
-                SubDirsAndFiles.Add(file.Remove(0, file.LastIndexOf("\\") + 1));
+                Console.WriteLine(e);
             }
         }
 
