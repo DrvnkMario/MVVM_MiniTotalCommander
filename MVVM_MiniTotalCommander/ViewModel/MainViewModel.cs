@@ -24,8 +24,6 @@ namespace MVVM_MiniTotalCommander.ViewModel
                 {
                     if (LeftPanel.IsSelected == true)
                     {
-                        Console.WriteLine(LeftPanel.CurrentPath + LeftPanel.ListBoxSelectedItem);
-                        Console.WriteLine(RightPanel.CurrentPath + LeftPanel.ListBoxSelectedItem);
                         File.Copy(LeftPanel.CurrentPath + LeftPanel.ListBoxSelectedItem, RightPanel.CurrentPath + LeftPanel.ListBoxSelectedItem);
                     }
                     else if (RightPanel.IsSelected == true)
