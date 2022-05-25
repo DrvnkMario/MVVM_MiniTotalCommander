@@ -39,6 +39,12 @@
                 <i:EventTrigger EventName="evComboBox_DropdownClose_handler">
                     <i:InvokeCommandAction Command="{Binding LeftPanel.ComboBox_DropdownClose}"/>
                 </i:EventTrigger>
+                <i:EventTrigger EventName="GotFocus">
+                    <i:InvokeCommandAction Command="{Binding LeftPanel.GotFocus}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding LeftPanel.LostFocus}"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
         </view:PanelTC>
 
@@ -59,6 +65,12 @@
                 <i:EventTrigger EventName="evComboBox_DropdownClose_handler">
                     <i:InvokeCommandAction Command="{Binding RightPanel.ComboBox_DropdownClose}"/>
                 </i:EventTrigger>
+                <i:EventTrigger EventName="GotFocus">
+                    <i:InvokeCommandAction Command="{Binding RightPanel.GotFocus}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding RightPanel.LostFocus}"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
 
         </view:PanelTC>
@@ -71,6 +83,7 @@
                 Width="150"
                 Height="20"
                 Content="Copy>>"
+                Focusable="False"
                 Command="{Binding Path=Copy}"/>
     </Grid>
 </Window>
