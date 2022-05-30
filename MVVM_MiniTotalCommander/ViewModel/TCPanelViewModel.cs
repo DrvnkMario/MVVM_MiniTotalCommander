@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Windows.Controls;
-using System.IO;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 namespace MVVM_MiniTotalCommander.ViewModel
@@ -86,21 +80,21 @@ namespace MVVM_MiniTotalCommander.ViewModel
         {
             if (ListBoxSelectedItem != null)
             {
-                if (ListBoxSelectedItem.StartsWith("<D>") == true)
+                if (Model.PathOperations.isDirectory(ListBoxSelectedItem))
                 {
-                    if (Path.GetPathRoot(CurrentPath) == CurrentPath)
+                    if (Model.PathOperations.isRoot(CurrentPath))
                     {
-                        this.CurrentPath += ListBoxSelectedItem.Remove(0, 3) + "\\";
+                        CurrentPath += ListBoxSelectedItem.Remove(0, 3) + "\\";
                     }
                     else
                     {
-                        this.CurrentPath += ListBoxSelectedItem.Remove(0, 3) + "\\";
+                        CurrentPath += ListBoxSelectedItem.Remove(0, 3) + "\\";
                     }
                 }
                 else if (ListBoxSelectedItem == "..")
                 {
                     CurrentPath = CurrentPath.Remove(CurrentPath.Length - 1);
-                    CurrentPath = Path.GetDirectoryName(CurrentPath);
+                    CurrentPath = Model.PathOperations.getDirectory(CurrentPath);
                 }
             }
             panelTC.getDirectoriesAndFiles(CurrentPath);

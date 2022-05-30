@@ -65,6 +65,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\FileOperations.cs" />
+    <Compile Include="Model\PathOperations.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TCPanelViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
